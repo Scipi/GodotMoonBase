@@ -1,16 +1,22 @@
-[gd_scene load_steps=2 format=1]
+[gd_scene load_steps=3 format=1]
 
 [ext_resource path="res://scenes/c_hub.tscn" type="PackedScene" id=1]
+[ext_resource path="res://script/selection_node.gd" type="Script" id=2]
 
 [node name="root" type="Node"]
 
 [node name="Central_Hub" parent="." instance=ExtResource( 1 )]
 
-transform/pos = Vector2( 465, 236 )
+transform/pos = Vector2( 464, 258 )
 
 [node name="Central_Hub" parent="Central_Hub/Connections" instance=ExtResource( 1 )]
 
 transform/pos = Vector2( 220, 115 )
+
+[node name="Selection" type="Node2D" parent="."]
+
+script/script = ExtResource( 2 )
+__meta__ = { "_edit_lock_":true }
 
 
 [editable path="Central_Hub"]

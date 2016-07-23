@@ -10,12 +10,11 @@ func _ready():
 	# Initialization here
 	pass
 
-func _input_event(viewport, event, shape_idx):
-	if event.type == InputEvent.MOUSE_BUTTON and event.is_pressed():
-		Globals.set("selection", weakref(get_parent()))
-		get_node("s_box_render").show()
+func select():
+	#Globals.get("selection").set(weakref(get_parent()))
+	get_node("s_box_render").show()
 	
 func deselect():
-	Globals.set("selection", null)
+	#Globals.get("selection").unset()
 	get_node("s_box_render").hide()
 	
