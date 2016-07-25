@@ -11,11 +11,11 @@ func _ready():
 	pass
 
 func add_child(node):
-	self.add_child(node)
+	.add_child(node)
 	update()
 
 func remove_child(node):
-	self.remove_child(node)
+	.remove_child(node)
 	update()
 
 func _draw():

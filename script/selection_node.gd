@@ -45,7 +45,7 @@ func _fixed_process(delta):
 		
 		for r in res:
 			if r.collider.has_method("select"):
-				to_select[r.rid] = r.collider
+				to_select[r.rid] = r.collider.get_owner()
 	
 
 func free():
@@ -56,14 +56,16 @@ func free():
 	self.free()
 
 func _unhandled_input(event):
-	if event.type == InputEvent.MOUSE_BUTTON && event.is_pressed():
+	if event.type == InputEvent.MOUSE_BUTTON && event.button_index == BUTTON_LEFT && event.is_pressed():
 		selecting = true
 		s_pos = event.pos
 		c_pos = s_pos
 		shape.set_extents(Vector2(1, 1))
 		
 		for k in selected:
-			selected[k].deselect()
+			var ref = selected[k].get_ref()
+			if ref:
+				ref.deselect()
 		
 		selected = {}
 		
@@ -74,12 +76,14 @@ func _unhandled_input(event):
 		shape.set_extents(h_bound)
 		update()
 	
-	if event.type == InputEvent.MOUSE_BUTTON && !event.is_pressed():
+	if event.type == InputEvent.MOUSE_BUTTON && event.button_index == BUTTON_LEFT  && !event.is_pressed():
 		selecting = false
 		selected = to_select
 		to_select = {}
 		for k in selected:
-			selected[k].select()
+			var ref = selected[k].get_ref()
+			if ref:
+				ref.select()
 		update()
 
 func _draw():

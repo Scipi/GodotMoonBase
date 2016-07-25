@@ -17,4 +17,6 @@ func select():
 func deselect():
 	#Globals.get("selection").unset()
 	get_node("s_box_render").hide()
-	
+
+func get_owner():
+	return weakref(get_parent())
