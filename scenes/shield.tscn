@@ -1,10 +1,12 @@
-[gd_scene load_steps=9 format=1]
+[gd_scene load_steps=12 format=1]
 
 [ext_resource path="res://script/c_hub.gd" type="Script" id=1]
 [ext_resource path="res://img/c_hub.png" type="Texture" id=2]
 [ext_resource path="res://script/selection_box.gd" type="Script" id=3]
 [ext_resource path="res://script/selection_box_render.gd" type="Script" id=4]
 [ext_resource path="res://script/c_hub_render.gd" type="Script" id=5]
+[ext_resource path="res://img/shield_mask.png" type="Texture" id=6]
+[ext_resource path="res://script/weapons/shield.gd" type="Script" id=7]
 
 [sub_resource type="ConvexPolygonShape2D" id=4]
 
@@ -21,7 +23,12 @@ points = Vector2Array( -8, -8, 8, -8, 8, 8, -8, 8 )
 custom_solver_bias = 0.0
 points = Vector2Array( 8, -8, 8, 8, -8, 8, -8, -8 )
 
-[node name="Central_Hub" type="Area2D"]
+[sub_resource type="CircleShape2D" id=1]
+
+custom_solver_bias = 0.0
+radius = 80.7233
+
+[node name="Shield" type="Area2D"]
 
 input/pickable = false
 shapes/0/shape = SubResource( 4 )
@@ -34,7 +41,7 @@ angular_damp = 1.0
 monitoring = false
 collision/mask = 0
 script/script = ExtResource( 1 )
-type = "HUB"
+type = "Shield"
 team = null
 
 [node name="Sprite" type="Sprite" parent="."]
@@ -107,6 +114,33 @@ __meta__ = { "_edit_lock_":true }
 [node name="Connections" type="Node2D" parent="."]
 
 script/script = ExtResource( 5 )
+__meta__ = { "_edit_lock_":true }
+
+[node name="shield_mask" type="Sprite" parent="."]
+
+texture = ExtResource( 6 )
+__meta__ = { "_edit_lock_":true }
+
+[node name="shield_body" type="StaticBody2D" parent="."]
+
+input/pickable = false
+shapes/0/shape = SubResource( 1 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = false
+collision/layers = 1
+collision/mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+script/script = ExtResource( 7 )
+__meta__ = { "_edit_lock_":true }
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="shield_body"]
+
+shape = SubResource( 1 )
+trigger = false
+_update_shape_index = 0
 __meta__ = { "_edit_lock_":true }
 
 

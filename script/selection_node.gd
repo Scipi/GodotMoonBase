@@ -29,6 +29,7 @@ func _fixed_process(delta):
 		params.set_transform(Matrix32(0, s_pos - h_bound))
 		params.set_shape(shape)
 		params.set_object_type_mask(space.TYPE_MASK_AREA)
+		params.set_layer_mask(Globals.get("SELECTION_LAYER"))
 		
 		var res = space.intersect_shape(params)
 		

@@ -1,10 +1,13 @@
-[gd_scene load_steps=9 format=1]
+[gd_scene load_steps=13 format=1]
 
 [ext_resource path="res://script/c_hub.gd" type="Script" id=1]
-[ext_resource path="res://img/c_hub.png" type="Texture" id=2]
+[ext_resource path="res://img/turret.png" type="Texture" id=2]
 [ext_resource path="res://script/selection_box.gd" type="Script" id=3]
 [ext_resource path="res://script/selection_box_render.gd" type="Script" id=4]
 [ext_resource path="res://script/c_hub_render.gd" type="Script" id=5]
+[ext_resource path="res://script/turret_ai.gd" type="Script" id=6]
+[ext_resource path="res://scenes/cannon.tscn" type="PackedScene" id=7]
+[ext_resource path="res://script/weapons/weapon_range.gd" type="Script" id=8]
 
 [sub_resource type="ConvexPolygonShape2D" id=4]
 
@@ -21,7 +24,12 @@ points = Vector2Array( -8, -8, 8, -8, 8, 8, -8, 8 )
 custom_solver_bias = 0.0
 points = Vector2Array( 8, -8, 8, 8, -8, 8, -8, -8 )
 
-[node name="Central_Hub" type="Area2D"]
+[sub_resource type="CircleShape2D" id=1]
+
+custom_solver_bias = 0.0
+radius = 259.53
+
+[node name="Turret" type="Area2D"]
 
 input/pickable = false
 shapes/0/shape = SubResource( 4 )
@@ -34,7 +42,7 @@ angular_damp = 1.0
 monitoring = false
 collision/mask = 0
 script/script = ExtResource( 1 )
-type = "HUB"
+type = "Turret"
 team = null
 
 [node name="Sprite" type="Sprite" parent="."]
@@ -108,5 +116,34 @@ __meta__ = { "_edit_lock_":true }
 
 script/script = ExtResource( 5 )
 __meta__ = { "_edit_lock_":true }
+
+[node name="scripts" type="Node" parent="."]
+
+[node name="ai" type="Node" parent="scripts"]
+
+script/script = ExtResource( 6 )
+
+[node name="weapon" parent="." instance=ExtResource( 7 )]
+
+fire_rate = 2.0
+
+[node name="range" type="Area2D" parent="."]
+
+input/pickable = true
+shapes/0/shape = SubResource( 1 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+monitorable = false
+script/script = ExtResource( 8 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="range"]
+
+shape = SubResource( 1 )
+trigger = true
+_update_shape_index = 0
 
 

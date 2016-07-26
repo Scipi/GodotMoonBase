@@ -8,7 +8,7 @@ extends Node
 var paint = "c_hub"
 
 func _ready():
-	Globals.set("node_paint", null)
+	Globals.set("node_paint", weakref(self))
 	set_process_unhandled_input(true)
 	
 

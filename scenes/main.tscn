@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=1]
+[gd_scene load_steps=5 format=1]
 
 [ext_resource path="res://script/node_paint.gd" type="Script" id=1]
-[ext_resource path="res://script/selection_node.gd" type="Script" id=2]
-[ext_resource path="res://scenes/c_hub.tscn" type="PackedScene" id=3]
+[ext_resource path="res://script/GUI/hub_gui.gd" type="Script" id=2]
+[ext_resource path="res://script/selection_node.gd" type="Script" id=3]
+[ext_resource path="res://scenes/c_hub.tscn" type="PackedScene" id=4]
 
 [node name="root" type="Node"]
 
@@ -12,32 +13,112 @@
 
 script/script = ExtResource( 1 )
 
-[node name="Selection" type="Node2D" parent="."]
+[node name="GUI" type="CanvasLayer" parent="."]
 
+layer = 1
+offset = Vector2( 0, 0 )
+rotation = 0.0
+scale = Vector2( 1, 1 )
+
+[node name="HUB_GUI" type="Control" parent="GUI"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 0.0
+margin/bottom = 0.0
 script/script = ExtResource( 2 )
 __meta__ = { "_edit_lock_":true }
 
-[node name="Central_Hub" parent="." instance=ExtResource( 3 )]
+[node name="b_Hub" type="Button" parent="GUI/HUB_GUI"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 1.0
+margin/top = 526.0
+margin/right = 88.0
+margin/bottom = 598.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Hub"
+flat = false
+
+[node name="b_Collector" type="Button" parent="GUI/HUB_GUI"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 90.0
+margin/top = 527.0
+margin/right = 177.0
+margin/bottom = 599.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Collector"
+flat = false
+
+[node name="b_Shield" type="Button" parent="GUI/HUB_GUI"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 179.0
+margin/top = 526.0
+margin/right = 266.0
+margin/bottom = 598.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Shield"
+flat = false
+
+[node name="b_Turret" type="Button" parent="GUI/HUB_GUI"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 268.0
+margin/top = 528.0
+margin/right = 355.0
+margin/bottom = 600.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Turret"
+flat = false
+
+[node name="Selection" type="Node2D" parent="."]
+
+script/script = ExtResource( 3 )
+__meta__ = { "_edit_lock_":true }
+
+[node name="Central_Hub" parent="." instance=ExtResource( 4 )]
 
 editor/display_folded = true
-transform/pos = Vector2( 464, 258 )
+transform/pos = Vector2( 820, 452 )
+team = "Team_1"
 
-[node name="Central_Hub" parent="Central_Hub/Connections" instance=ExtResource( 3 )]
+[node name="Central_Hub 2" parent="." instance=ExtResource( 4 )]
 
-transform/pos = Vector2( 220, 115 )
+transform/pos = Vector2( 169, 106 )
+team = "Team_2"
 
-[node name="Central_Hub 2" parent="Central_Hub/Connections" instance=ExtResource( 3 )]
+[connection signal="pressed" from="GUI/HUB_GUI/b_Hub" to="GUI/HUB_GUI" method="button_pressed" binds= [ "c_hub" ]]
 
-transform/pos = Vector2( -166, 64 )
+[connection signal="pressed" from="GUI/HUB_GUI/b_Shield" to="GUI/HUB_GUI" method="button_pressed" binds= [ "shield" ]]
 
-[node name="Central_Hub" parent="Central_Hub/Connections/Central_Hub 2/Connections" instance=ExtResource( 3 )]
-
-transform/pos = Vector2( -48, 107 )
-
-[node name="Central_Hub 2" parent="Central_Hub/Connections/Central_Hub 2/Connections" instance=ExtResource( 3 )]
-
-transform/pos = Vector2( 72, 82 )
+[connection signal="pressed" from="GUI/HUB_GUI/b_Turret" to="GUI/HUB_GUI" method="button_pressed" binds= [ "Turret" ]]
 
 
 [editable path="Central_Hub"]
-[editable path="Central_Hub/Connections/Central_Hub 2"]
+[editable path="Central_Hub 2"]
