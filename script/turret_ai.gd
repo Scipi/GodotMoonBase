@@ -19,7 +19,7 @@ func select_target(targets):
 
 func _process(delta):
 	var t_ref = target.get_ref()
-	if t_ref:
+	if t_ref != null:
 		get_node("../../weapon").fire_at(t_ref.get_global_pos())
 	else:
 		set_process(false)

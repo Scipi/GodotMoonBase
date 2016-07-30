@@ -9,7 +9,7 @@
 [ext_resource path="res://scenes/cannon.tscn" type="PackedScene" id=7]
 [ext_resource path="res://script/weapons/weapon_range.gd" type="Script" id=8]
 
-[sub_resource type="ConvexPolygonShape2D" id=4]
+[sub_resource type="ConvexPolygonShape2D" id=1]
 
 custom_solver_bias = 0.0
 points = Vector2Array( 8, -8, 8, 8, -8, 8, -8, -8 )
@@ -24,7 +24,7 @@ points = Vector2Array( -8, -8, 8, -8, 8, 8, -8, 8 )
 custom_solver_bias = 0.0
 points = Vector2Array( 8, -8, 8, 8, -8, 8, -8, -8 )
 
-[sub_resource type="CircleShape2D" id=1]
+[sub_resource type="CircleShape2D" id=4]
 
 custom_solver_bias = 0.0
 radius = 259.53
@@ -32,7 +32,7 @@ radius = 259.53
 [node name="Turret" type="Area2D"]
 
 input/pickable = false
-shapes/0/shape = SubResource( 4 )
+shapes/0/shape = SubResource( 1 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -44,6 +44,7 @@ collision/mask = 0
 script/script = ExtResource( 1 )
 type = "Turret"
 team = null
+health = 100
 
 [node name="Sprite" type="Sprite" parent="."]
 
@@ -130,7 +131,7 @@ fire_rate = 2.0
 [node name="range" type="Area2D" parent="."]
 
 input/pickable = true
-shapes/0/shape = SubResource( 1 )
+shapes/0/shape = SubResource( 4 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = true
 gravity_vec = Vector2( 0, 1 )
@@ -142,7 +143,7 @@ script/script = ExtResource( 8 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="range"]
 
-shape = SubResource( 1 )
+shape = SubResource( 4 )
 trigger = true
 _update_shape_index = 0
 

@@ -23,7 +23,7 @@ func paint_node(pos):
 		if ref:
 			if ref.type == "HUB":
 				var node = load("res://scenes/" + paint + ".tscn").instance()
-				node.set_pos(pos)
+				node.set_global_pos(pos)
 				if node.valid_pos():
 					ref.add_connection(node, pos)
 				break

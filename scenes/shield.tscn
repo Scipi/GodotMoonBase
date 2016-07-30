@@ -8,7 +8,7 @@
 [ext_resource path="res://img/shield_mask.png" type="Texture" id=6]
 [ext_resource path="res://script/weapons/shield.gd" type="Script" id=7]
 
-[sub_resource type="ConvexPolygonShape2D" id=4]
+[sub_resource type="ConvexPolygonShape2D" id=1]
 
 custom_solver_bias = 0.0
 points = Vector2Array( 8, -8, 8, 8, -8, 8, -8, -8 )
@@ -23,7 +23,7 @@ points = Vector2Array( -8, -8, 8, -8, 8, 8, -8, 8 )
 custom_solver_bias = 0.0
 points = Vector2Array( 8, -8, 8, 8, -8, 8, -8, -8 )
 
-[sub_resource type="CircleShape2D" id=1]
+[sub_resource type="CircleShape2D" id=4]
 
 custom_solver_bias = 0.0
 radius = 80.7233
@@ -31,7 +31,7 @@ radius = 80.7233
 [node name="Shield" type="Area2D"]
 
 input/pickable = false
-shapes/0/shape = SubResource( 4 )
+shapes/0/shape = SubResource( 1 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -43,6 +43,7 @@ collision/mask = 0
 script/script = ExtResource( 1 )
 type = "Shield"
 team = null
+health = 50
 
 [node name="Sprite" type="Sprite" parent="."]
 
@@ -121,26 +122,35 @@ __meta__ = { "_edit_lock_":true }
 texture = ExtResource( 6 )
 __meta__ = { "_edit_lock_":true }
 
-[node name="shield_body" type="StaticBody2D" parent="."]
+[node name="shield_body" type="Area2D" parent="."]
 
 input/pickable = false
-shapes/0/shape = SubResource( 1 )
+shapes/0/shape = SubResource( 4 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = false
-collision/layers = 1
-collision/mask = 1
-constant_linear_velocity = Vector2( 0, 0 )
-constant_angular_velocity = 0.0
-friction = 1.0
-bounce = 0.0
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+collision/layers = 1024
+collision/mask = 0
 script/script = ExtResource( 7 )
 __meta__ = { "_edit_lock_":true }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="shield_body"]
 
-shape = SubResource( 1 )
+shape = SubResource( 4 )
 trigger = false
 _update_shape_index = 0
 __meta__ = { "_edit_lock_":true }
+
+[node name="recharge_delay" type="Timer" parent="shield_body"]
+
+process_mode = 0
+wait_time = 2.0
+one_shot = true
+autostart = false
+
+[connection signal="timeout" from="shield_body/recharge_delay" to="shield_body" method="start_recovery"]
 
 
