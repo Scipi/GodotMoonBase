@@ -119,6 +119,7 @@ __meta__ = { "_edit_lock_":true }
 
 [node name="shield_mask" type="Sprite" parent="."]
 
+z/z = 1
 texture = ExtResource( 6 )
 __meta__ = { "_edit_lock_":true }
 
@@ -150,6 +151,10 @@ process_mode = 0
 wait_time = 2.0
 one_shot = true
 autostart = false
+
+[connection signal="deselected" from="." to="SelectionBox" method="deselect"]
+
+[connection signal="selected" from="." to="SelectionBox" method="select"]
 
 [connection signal="timeout" from="shield_body/recharge_delay" to="shield_body" method="start_recovery"]
 

@@ -11,8 +11,13 @@ export(String, "Team_1", "Team_2") var team
 
 export(int) var health
 
-var HQ = true
+signal selected
+signal deselected
+signal revealed
+signal hidden
 
+var HQ = true
+var visible = true
 func _ready():
 	# Called every time the node is added to the scene.
 	# Initialization here
@@ -21,14 +26,24 @@ func _ready():
 		pass
 	elif team == "Team_2":
 		get_node("Sprite").set_modulate(Color(100, 0, 0))
-		
+	
+	if team != Globals.get("PLAYER_TEAM"):
+		set_visible(false)
+		if has_node("fov"):
+			get_node("fov").hide()
 
 func select():
-	get_node("SelectionBox").select()
-	print(team)
+	emit_signal("selected")
 
 func deselect():
-	get_node("SelectionBox").deselect()
+	emit_signal("deselected")
+
+func set_visible(v):
+	visible = v
+	if v:
+		emit_signal("revealed")
+	else:
+		emit_signal("hidden")
 
 func add_connection(c, pos):
 	c.team = team

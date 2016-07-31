@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=1]
+[gd_scene load_steps=17 format=1]
 
 [ext_resource path="res://script/c_hub.gd" type="Script" id=1]
 [ext_resource path="res://img/turret.png" type="Texture" id=2]
@@ -8,6 +8,9 @@
 [ext_resource path="res://script/turret_ai.gd" type="Script" id=6]
 [ext_resource path="res://scenes/cannon.tscn" type="PackedScene" id=7]
 [ext_resource path="res://script/weapons/weapon_range.gd" type="Script" id=8]
+[ext_resource path="res://script/range_ring.gd" type="Script" id=9]
+[ext_resource path="res://shaders/stencil_mask.tres" type="Shader" id=10]
+[ext_resource path="res://script/range_ring_transparent.gd" type="Script" id=11]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 
@@ -28,6 +31,11 @@ points = Vector2Array( 8, -8, 8, 8, -8, 8, -8, -8 )
 
 custom_solver_bias = 0.0
 radius = 259.53
+
+[sub_resource type="CanvasItemMaterial" id=5]
+
+shader/shader = ExtResource( 10 )
+shader/shading_mode = 0
 
 [node name="Turret" type="Area2D"]
 
@@ -130,6 +138,7 @@ fire_rate = 2.0
 
 [node name="range" type="Area2D" parent="."]
 
+visibility/visible = false
 input/pickable = true
 shapes/0/shape = SubResource( 4 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
@@ -146,5 +155,29 @@ script/script = ExtResource( 8 )
 shape = SubResource( 4 )
 trigger = true
 _update_shape_index = 0
+
+[node name="ring" type="Node2D" parent="range"]
+
+z/z = 6
+script/script = ExtResource( 9 )
+color = Color( 1, 0, 0, 1 )
+
+[node name="ring_transparent" type="Node2D" parent="range"]
+
+material/material = SubResource( 5 )
+z/z = 7
+script/script = ExtResource( 11 )
+
+[connection signal="deselected" from="." to="SelectionBox" method="deselect"]
+
+[connection signal="deselected" from="." to="range" method="deselect"]
+
+[connection signal="hidden" from="." to="Sprite" method="hide"]
+
+[connection signal="revealed" from="." to="Sprite" method="show"]
+
+[connection signal="selected" from="." to="SelectionBox" method="select"]
+
+[connection signal="selected" from="." to="range" method="select"]
 
 

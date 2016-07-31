@@ -1,10 +1,14 @@
-[gd_scene load_steps=9 format=1]
+[gd_scene load_steps=15 format=1]
 
 [ext_resource path="res://script/c_hub.gd" type="Script" id=1]
 [ext_resource path="res://img/c_hub.png" type="Texture" id=2]
 [ext_resource path="res://script/selection_box.gd" type="Script" id=3]
 [ext_resource path="res://script/selection_box_render.gd" type="Script" id=4]
-[ext_resource path="res://script/c_hub_render.gd" type="Script" id=5]
+[ext_resource path="res://script/fov.gd" type="Script" id=5]
+[ext_resource path="res://script/range_ring.gd" type="Script" id=6]
+[ext_resource path="res://shaders/stencil_mask.tres" type="Shader" id=7]
+[ext_resource path="res://script/range_ring_transparent.gd" type="Script" id=8]
+[ext_resource path="res://script/c_hub_render.gd" type="Script" id=9]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 
@@ -20,6 +24,16 @@ points = Vector2Array( -8, -8, 8, -8, 8, 8, -8, 8 )
 
 custom_solver_bias = 0.0
 points = Vector2Array( 8, -8, 8, 8, -8, 8, -8, -8 )
+
+[sub_resource type="CircleShape2D" id=4]
+
+custom_solver_bias = 0.0
+radius = 192.697
+
+[sub_resource type="CanvasItemMaterial" id=5]
+
+shader/shader = ExtResource( 7 )
+shader/shading_mode = 0
 
 [node name="Central_Hub" type="Area2D"]
 
@@ -82,7 +96,7 @@ visibility/visible = false
 script/script = ExtResource( 4 )
 __meta__ = { "_edit_lock_":true }
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="VisibilityBody" type="Area2D" parent="."]
 
 input/pickable = false
 shapes/0/shape = SubResource( 3 )
@@ -96,18 +110,74 @@ monitoring = false
 collision/layers = 4
 collision/mask = 0
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="VisibilityBody"]
 
-visibility/visible = false
 build_mode = 0
 polygon = Vector2Array( -8, -8, -8, 8, 8, 8, 8, -8 )
 shape_range = Vector2( 0, 0 )
 trigger = true
 __meta__ = { "_edit_lock_":true }
 
+[node name="fov" type="Area2D" parent="."]
+
+input/pickable = true
+shapes/0/shape = SubResource( 4 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+monitorable = false
+collision/layers = 0
+collision/mask = 4
+script/script = ExtResource( 5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="fov"]
+
+shape = SubResource( 4 )
+trigger = false
+_update_shape_index = 0
+
+[node name="range" type="Node2D" parent="fov"]
+
+visibility/visible = false
+z/z = 4
+script/script = ExtResource( 6 )
+color = Color( 0, 0.132812, 1, 1 )
+
+[node name="range_transparent" type="Node2D" parent="fov"]
+
+visibility/visible = false
+material/material = SubResource( 5 )
+z/z = 5
+script/script = ExtResource( 8 )
+
+[node name="view_range" type="Node2D" parent="fov"]
+
+material/material = SubResource( 5 )
+z/z = 3
+script/script = ExtResource( 8 )
+
 [node name="Connections" type="Node2D" parent="."]
 
-script/script = ExtResource( 5 )
+script/script = ExtResource( 9 )
 __meta__ = { "_edit_lock_":true }
+
+[connection signal="deselected" from="." to="SelectionBox" method="deselect"]
+
+[connection signal="deselected" from="." to="fov" method="deselect"]
+
+[connection signal="hidden" from="." to="Sprite" method="hide"]
+
+[connection signal="hidden" from="." to="Connections" method="hidden"]
+
+[connection signal="revealed" from="." to="Sprite" method="show"]
+
+[connection signal="revealed" from="." to="Connections" method="revealed"]
+
+[connection signal="selected" from="." to="SelectionBox" method="select"]
+
+[connection signal="selected" from="." to="fov" method="select"]
 
 

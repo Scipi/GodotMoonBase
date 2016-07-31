@@ -21,3 +21,8 @@ func _fixed_process(delta):
 	
 	get_node("../scripts/ai").select_target(valid_targets)
 
+func select():
+	show()
+
+func deselect():
+	hide()

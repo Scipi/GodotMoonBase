@@ -1,18 +1,23 @@
-[gd_scene load_steps=6 format=1]
+[gd_scene load_steps=9 format=1]
 
-[ext_resource path="res://script/node_paint.gd" type="Script" id=1]
-[ext_resource path="res://script/GUI/hub_gui.gd" type="Script" id=2]
-[ext_resource path="res://tilesets/terrain.tres" type="TileSet" id=3]
-[ext_resource path="res://script/selection_node.gd" type="Script" id=4]
-[ext_resource path="res://scenes/c_hub.tscn" type="PackedScene" id=5]
+[ext_resource path="res://script/map.gd" type="Script" id=1]
+[ext_resource path="res://script/node_paint.gd" type="Script" id=2]
+[ext_resource path="res://script/GUI/hub_gui.gd" type="Script" id=3]
+[ext_resource path="res://tilesets/terrain.tres" type="TileSet" id=4]
+[ext_resource path="res://script/selection_node.gd" type="Script" id=5]
+[ext_resource path="res://scenes/c_hub.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/stencil_mask.tscn" type="PackedScene" id=7]
+[ext_resource path="res://img/fow_shroud.png" type="Texture" id=8]
 
 [node name="root" type="Node"]
+
+script/script = ExtResource( 1 )
 
 [node name="scripts" type="Node" parent="."]
 
 [node name="node_paint" type="Node" parent="scripts"]
 
-script/script = ExtResource( 1 )
+script/script = ExtResource( 2 )
 
 [node name="GUI" type="CanvasLayer" parent="."]
 
@@ -31,7 +36,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 0.0
 margin/bottom = 0.0
-script/script = ExtResource( 2 )
+script/script = ExtResource( 3 )
 __meta__ = { "_edit_lock_":true }
 
 [node name="b_Hub" type="Button" parent="GUI/HUB_GUI"]
@@ -109,7 +114,7 @@ flat = false
 [node name="terrain_map" type="TileMap" parent="."]
 
 mode = 0
-tile_set = ExtResource( 3 )
+tile_set = ExtResource( 4 )
 cell/size = Vector2( 64, 64 )
 cell/quadrant_size = 16
 cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
@@ -127,25 +132,56 @@ __meta__ = { "_edit_lock_":true }
 
 [node name="Selection" type="Node2D" parent="."]
 
-script/script = ExtResource( 4 )
+script/script = ExtResource( 5 )
 __meta__ = { "_edit_lock_":true }
 
-[node name="Central_Hub" parent="." instance=ExtResource( 5 )]
+[node name="Central_Hub" parent="." instance=ExtResource( 6 )]
 
 editor/display_folded = true
 transform/pos = Vector2( 820, 452 )
 team = "Team_1"
 
-[node name="Central_Hub 2" parent="." instance=ExtResource( 5 )]
+[node name="Central_Hub 2" parent="." instance=ExtResource( 6 )]
 
+editor/display_folded = true
 transform/pos = Vector2( 169, 106 )
 team = "Team_2"
+
+[node name="fov_buffer" parent="." instance=ExtResource( 7 )]
+
+transform/pos = Vector2( 475.134, 376.915 )
+transform/scale = Vector2( 1, 1 )
+z/z = 1
+mask_z_offset = 1
+
+[node name="w_range_buffer" parent="." instance=ExtResource( 7 )]
+
+material/use_parent = true
+transform/pos = Vector2( 475.134, 376.915 )
+transform/scale = Vector2( 1, 1 )
+z/z = 3
+
+[node name="fog_of_war" type="Sprite" parent="."]
+
+visibility/visible = false
+transform/pos = Vector2( 507.345, 323.058 )
+transform/scale = Vector2( 17.0847, 11.0331 )
+z/z = 1
+texture = ExtResource( 8 )
 
 [connection signal="pressed" from="GUI/HUB_GUI/b_Hub" to="GUI/HUB_GUI" method="button_pressed" binds= [ "c_hub" ]]
 
 [connection signal="pressed" from="GUI/HUB_GUI/b_Shield" to="GUI/HUB_GUI" method="button_pressed" binds= [ "shield" ]]
 
 [connection signal="pressed" from="GUI/HUB_GUI/b_Turret" to="GUI/HUB_GUI" method="button_pressed" binds= [ "turret" ]]
+
+[connection signal="hidden" from="Central_Hub" to="Central_Hub/Connections" method="hidden"]
+
+[connection signal="revealed" from="Central_Hub" to="Central_Hub/Connections" method="revealed"]
+
+[connection signal="hidden" from="Central_Hub 2" to="Central_Hub 2/Connections" method="hidden"]
+
+[connection signal="revealed" from="Central_Hub 2" to="Central_Hub 2/Connections" method="revealed"]
 
 
 [editable path="Central_Hub"]

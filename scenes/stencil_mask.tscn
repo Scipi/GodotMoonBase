@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=1]
+
+[ext_resource path="res://shaders/stencil_mask.tres" type="Shader" id=1]
+[ext_resource path="res://script/stencil_mask.gd" type="Script" id=2]
+
+[sub_resource type="CanvasItemMaterial" id=1]
+
+shader/shader = ExtResource( 1 )
+shader/shading_mode = 0
+
+[node name="BackBufferCopy" type="BackBufferCopy"]
+
+material/material = SubResource( 1 )
+copy_mode = 2
+rect = Rect2( -256, -256, 512, 512 )
+script/script = ExtResource( 2 )
+mask_z_offset = 2
+
+
