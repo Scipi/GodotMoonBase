@@ -31,7 +31,7 @@ func _fixed_process(delta):
 		params.set_object_type_mask(space.TYPE_MASK_AREA)
 		params.set_layer_mask(Globals.get("SELECTION_LAYER"))
 		
-		var res = space.intersect_shape(params)
+		var res = space.intersect_shape(params, 128)
 		
 		for k in to_select:
 			var found = false
@@ -59,7 +59,7 @@ func free():
 func _unhandled_input(event):
 	if event.type == InputEvent.MOUSE_BUTTON && event.button_index == BUTTON_LEFT && event.is_pressed():
 		selecting = true
-		s_pos = event.pos
+		s_pos = get_global_mouse_pos()
 		c_pos = s_pos
 		shape.set_extents(Vector2(1, 1))
 		
@@ -72,7 +72,7 @@ func _unhandled_input(event):
 		
 		update()
 	if event.type == InputEvent.MOUSE_MOTION && selecting:
-		c_pos = event.pos
+		c_pos = get_global_mouse_pos()
 		h_bound = (s_pos - c_pos) / 2
 		shape.set_extents(h_bound)
 		update()

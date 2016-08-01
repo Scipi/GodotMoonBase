@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=1]
+[gd_scene load_steps=19 format=1]
 
 [ext_resource path="res://script/c_hub.gd" type="Script" id=1]
 [ext_resource path="res://img/c_hub.png" type="Texture" id=2]
@@ -6,42 +6,47 @@
 [ext_resource path="res://script/radar_sig.gd" type="Script" id=4]
 [ext_resource path="res://script/selection_box.gd" type="Script" id=5]
 [ext_resource path="res://script/selection_box_render.gd" type="Script" id=6]
-[ext_resource path="res://script/building_range.gd" type="Script" id=7]
+[ext_resource path="res://script/radar_range.gd" type="Script" id=7]
 [ext_resource path="res://script/range_ring.gd" type="Script" id=8]
 [ext_resource path="res://shaders/stencil_mask.tres" type="Shader" id=9]
 [ext_resource path="res://script/range_ring_transparent.gd" type="Script" id=10]
 [ext_resource path="res://script/fov.gd" type="Script" id=11]
 [ext_resource path="res://script/c_hub_render.gd" type="Script" id=12]
 
-[sub_resource type="ConvexPolygonShape2D" id=5]
+[sub_resource type="ConvexPolygonShape2D" id=1]
 
 custom_solver_bias = 0.0
 points = Vector2Array( 8, -8, 8, 8, -8, 8, -8, -8 )
 
-[sub_resource type="ConvexPolygonShape2D" id=6]
+[sub_resource type="ConvexPolygonShape2D" id=2]
 
 custom_solver_bias = 0.0
 points = Vector2Array( -8, -8, 8, -8, 8, 8, -8, 8 )
 
-[sub_resource type="ConvexPolygonShape2D" id=7]
+[sub_resource type="ConvexPolygonShape2D" id=3]
 
 custom_solver_bias = 0.0
 points = Vector2Array( 8, -8, 8, 8, -8, 8, -8, -8 )
 
-[sub_resource type="CircleShape2D" id=4]
+[sub_resource type="CircleShape2D" id=7]
 
 custom_solver_bias = 0.0
-radius = 160.562
+radius = 225.219
 
-[sub_resource type="CanvasItemMaterial" id=8]
+[sub_resource type="CanvasItemMaterial" id=5]
 
 shader/shader = ExtResource( 9 )
 shader/shading_mode = 0
 
-[node name="Central_Hub" type="Area2D"]
+[sub_resource type="CircleShape2D" id=6]
+
+custom_solver_bias = 0.0
+radius = 61.9323
+
+[node name="Radar" type="Area2D"]
 
 input/pickable = false
-shapes/0/shape = SubResource( 5 )
+shapes/0/shape = SubResource( 1 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -51,10 +56,10 @@ angular_damp = 1.0
 monitoring = false
 collision/mask = 0
 script/script = ExtResource( 1 )
-type = "HUB"
+type = "RADAR"
 team = "Team_1"
 player_owner = "Player_1"
-health = 1000
+health = 50
 
 [node name="Sprite" type="Sprite" parent="."]
 
@@ -79,7 +84,7 @@ __meta__ = { "_edit_lock_":true }
 [node name="SelectionBox" type="Area2D" parent="."]
 
 input/pickable = true
-shapes/0/shape = SubResource( 6 )
+shapes/0/shape = SubResource( 2 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = true
 gravity_vec = Vector2( 0, 1 )
@@ -109,7 +114,7 @@ __meta__ = { "_edit_lock_":true }
 [node name="VisibilityBody" type="Area2D" parent="."]
 
 input/pickable = false
-shapes/0/shape = SubResource( 7 )
+shapes/0/shape = SubResource( 3 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = true
 gravity_vec = Vector2( 0, 1 )
@@ -128,47 +133,47 @@ shape_range = Vector2( 0, 0 )
 trigger = true
 __meta__ = { "_edit_lock_":true }
 
-[node name="building_range" type="Area2D" parent="."]
+[node name="radar_range" type="Area2D" parent="."]
 
 input/pickable = true
-shapes/0/shape = SubResource( 4 )
+shapes/0/shape = SubResource( 7 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
-monitoring = false
+monitorable = false
 collision/layers = 0
-collision/mask = 0
+collision/mask = 4
 script/script = ExtResource( 7 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="building_range"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="radar_range"]
 
-shape = SubResource( 4 )
+shape = SubResource( 7 )
 trigger = false
 _update_shape_index = 0
 
-[node name="range" type="Node2D" parent="building_range"]
+[node name="range" type="Node2D" parent="radar_range"]
 
 visibility/visible = false
 z/z = 4
 script/script = ExtResource( 8 )
-color = Color( 0, 0.132812, 1, 1 )
-Z_LAYER = "BUILDING_RANGE_RING_Z"
+color = Color( 0.875, 1, 0, 1 )
+Z_LAYER = "RADAR_RING_Z"
 
-[node name="range_transparent" type="Node2D" parent="building_range"]
+[node name="range_transparent" type="Node2D" parent="radar_range"]
 
 visibility/visible = false
-material/material = SubResource( 8 )
+material/material = SubResource( 5 )
 z/z = 5
 script/script = ExtResource( 10 )
-Z_LAYER = "BUILDING_RANGE_TRANS_Z"
+Z_LAYER = "RADAR_TRANS_Z"
 
 [node name="fov" type="Area2D" parent="."]
 
 input/pickable = true
-shapes/0/shape = SubResource( 4 )
+shapes/0/shape = SubResource( 6 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -182,13 +187,13 @@ script/script = ExtResource( 11 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="fov"]
 
-shape = SubResource( 4 )
+shape = SubResource( 6 )
 trigger = false
 _update_shape_index = 0
 
 [node name="view_range" type="Node2D" parent="fov"]
 
-material/material = SubResource( 8 )
+material/material = SubResource( 5 )
 z/z = 3
 script/script = ExtResource( 8 )
 color = Color( 0, 0, 0, 1 )
@@ -199,26 +204,26 @@ Z_LAYER = "FOG_OF_WAR_TRANS_Z"
 script/script = ExtResource( 12 )
 __meta__ = { "_edit_lock_":true }
 
+[connection signal="deselected" from="." to="radar_range" method="deselect"]
+
 [connection signal="deselected" from="." to="SelectionBox" method="deselect"]
 
-[connection signal="deselected" from="." to="building_range" method="deselect"]
+[connection signal="hidden" from="." to="Sprite" method="hide"]
 
 [connection signal="hidden" from="." to="Connections" method="hidden"]
-
-[connection signal="hidden" from="." to="Sprite" method="hide"]
 
 [connection signal="radar_hidden" from="." to="radar_sig" method="hide"]
 
 [connection signal="radar_revealed" from="." to="radar_sig" method="show"]
 
-[connection signal="revealed" from="." to="radar_sig" method="hide"]
+[connection signal="revealed" from="." to="Sprite" method="show"]
 
 [connection signal="revealed" from="." to="Connections" method="revealed"]
 
-[connection signal="revealed" from="." to="Sprite" method="show"]
+[connection signal="revealed" from="." to="radar_sig" method="hide"]
+
+[connection signal="selected" from="." to="radar_range" method="select"]
 
 [connection signal="selected" from="." to="SelectionBox" method="select"]
-
-[connection signal="selected" from="." to="building_range" method="select"]
 
 

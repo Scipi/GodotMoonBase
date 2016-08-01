@@ -1,12 +1,14 @@
-[gd_scene load_steps=12 format=1]
+[gd_scene load_steps=14 format=1]
 
 [ext_resource path="res://script/c_hub.gd" type="Script" id=1]
 [ext_resource path="res://img/c_hub.png" type="Texture" id=2]
-[ext_resource path="res://script/selection_box.gd" type="Script" id=3]
-[ext_resource path="res://script/selection_box_render.gd" type="Script" id=4]
-[ext_resource path="res://script/c_hub_render.gd" type="Script" id=5]
-[ext_resource path="res://img/shield_mask.png" type="Texture" id=6]
-[ext_resource path="res://script/weapons/shield.gd" type="Script" id=7]
+[ext_resource path="res://img/radar_hub_sig.png" type="Texture" id=3]
+[ext_resource path="res://script/radar_sig.gd" type="Script" id=4]
+[ext_resource path="res://script/selection_box.gd" type="Script" id=5]
+[ext_resource path="res://script/selection_box_render.gd" type="Script" id=6]
+[ext_resource path="res://script/c_hub_render.gd" type="Script" id=7]
+[ext_resource path="res://script/weapons/shield.gd" type="Script" id=8]
+[ext_resource path="res://img/shield_mask.png" type="Texture" id=9]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 
@@ -42,13 +44,20 @@ monitoring = false
 collision/mask = 0
 script/script = ExtResource( 1 )
 type = "Shield"
-team = null
+team = "Team_1"
+player_owner = "Player_1"
 health = 50
 
 [node name="Sprite" type="Sprite" parent="."]
 
 texture = ExtResource( 2 )
 __meta__ = { "_edit_lock_":true }
+
+[node name="radar_sig" type="Sprite" parent="."]
+
+visibility/visible = false
+texture = ExtResource( 3 )
+script/script = ExtResource( 4 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 
@@ -72,7 +81,7 @@ angular_damp = 1.0
 monitoring = false
 collision/layers = 2
 collision/mask = 0
-script/script = ExtResource( 3 )
+script/script = ExtResource( 5 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="SelectionBox"]
 
@@ -86,7 +95,7 @@ __meta__ = { "_edit_lock_":true }
 [node name="s_box_render" type="Node2D" parent="SelectionBox"]
 
 visibility/visible = false
-script/script = ExtResource( 4 )
+script/script = ExtResource( 6 )
 __meta__ = { "_edit_lock_":true }
 
 [node name="Area2D" type="Area2D" parent="."]
@@ -114,13 +123,7 @@ __meta__ = { "_edit_lock_":true }
 
 [node name="Connections" type="Node2D" parent="."]
 
-script/script = ExtResource( 5 )
-__meta__ = { "_edit_lock_":true }
-
-[node name="shield_mask" type="Sprite" parent="."]
-
-z/z = 1
-texture = ExtResource( 6 )
+script/script = ExtResource( 7 )
 __meta__ = { "_edit_lock_":true }
 
 [node name="shield_body" type="Area2D" parent="."]
@@ -135,7 +138,7 @@ linear_damp = 0.1
 angular_damp = 1.0
 collision/layers = 1024
 collision/mask = 0
-script/script = ExtResource( 7 )
+script/script = ExtResource( 8 )
 __meta__ = { "_edit_lock_":true }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="shield_body"]
@@ -152,7 +155,26 @@ wait_time = 2.0
 one_shot = true
 autostart = false
 
+[node name="shield_mask" type="Sprite" parent="shield_body"]
+
+texture = ExtResource( 9 )
+__meta__ = { "_edit_lock_":true }
+
 [connection signal="deselected" from="." to="SelectionBox" method="deselect"]
+
+[connection signal="hidden" from="." to="shield_body" method="hide"]
+
+[connection signal="hidden" from="." to="Sprite" method="hide"]
+
+[connection signal="radar_hidden" from="." to="radar_sig" method="hide"]
+
+[connection signal="radar_revealed" from="." to="radar_sig" method="show"]
+
+[connection signal="revealed" from="." to="shield_body" method="show"]
+
+[connection signal="revealed" from="." to="Sprite" method="show"]
+
+[connection signal="revealed" from="." to="radar_sig" method="hide"]
 
 [connection signal="selected" from="." to="SelectionBox" method="select"]
 

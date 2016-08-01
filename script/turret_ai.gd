@@ -19,7 +19,7 @@ func select_target(targets):
 
 func _process(delta):
 	var t_ref = target.get_ref()
-	if t_ref != null:
+	if t_ref != null and "visible" in t_ref and (t_ref.visible or t_ref.radar_visible):
 		get_node("../../weapon").fire_at(t_ref.get_global_pos())
 	else:
 		set_process(false)

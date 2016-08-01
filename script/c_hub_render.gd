@@ -10,6 +10,8 @@ var visible = true
 func _ready():
 	# Called every time the node is added to the scene.
 	# Initialization here
+	set_z_as_relative(false)
+	set_z(Globals.get("WIRE_Z"))
 	pass
 
 func add_child(node):

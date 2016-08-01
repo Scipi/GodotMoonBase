@@ -14,7 +14,7 @@
 0/navigation_offset = Vector2( 32, 32 )
 0/shape_offset = Vector2( 0, 0 )
 0/shapes = [  ]
-1/name = "beach"
+1/name = "sand"
 1/texture = ExtResource( 2 )
 1/tex_offset = Vector2( 0, 0 )
 1/region = Rect2( 0, 0, 64, 64 )
@@ -22,7 +22,7 @@
 1/navigation_offset = Vector2( 32, 32 )
 1/shape_offset = Vector2( 0, 0 )
 1/shapes = [  ]
-2/name = "water"
+2/name = "shallow_water"
 2/texture = ExtResource( 3 )
 2/tex_offset = Vector2( 0, 0 )
 2/region = Rect2( 0, 0, 64, 64 )

@@ -1,5 +1,5 @@
 
-extends Node
+extends Node2D
 
 # member variables here, example:
 # var a=2
@@ -14,7 +14,7 @@ func _ready():
 
 func _unhandled_input(event):
 	if event.type == InputEvent.MOUSE_BUTTON && event.button_index == BUTTON_RIGHT && !event.is_pressed():
-		paint_node(event.global_pos)
+		paint_node(get_global_mouse_pos())
 
 func paint_node(pos):
 	var selection = Globals.get("selection").selected
@@ -23,7 +23,6 @@ func paint_node(pos):
 		if ref:
 			if ref.type == "HUB":
 				var node = load("res://scenes/" + paint + ".tscn").instance()
-				node.set_global_pos(pos)
-				if node.valid_pos():
-					ref.add_connection(node, pos)
+				
+				ref.add_connection(node, pos)
 				break
