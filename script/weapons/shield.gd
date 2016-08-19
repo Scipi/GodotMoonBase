@@ -25,7 +25,7 @@ func _process(delta):
 		health = max_health
 		set_process(false)
 		get_node("shield_mask").show()
-		set_layer_mask(1024)
+		set_layer_mask(Globals.get("SHIELD_LAYER"))
 
 func damage(dmg):
 	health -= dmg

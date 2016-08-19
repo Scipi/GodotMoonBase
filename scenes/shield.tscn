@@ -162,19 +162,19 @@ __meta__ = { "_edit_lock_":true }
 
 [connection signal="deselected" from="." to="SelectionBox" method="deselect"]
 
-[connection signal="hidden" from="." to="shield_body" method="hide"]
-
 [connection signal="hidden" from="." to="Sprite" method="hide"]
+
+[connection signal="hidden" from="." to="shield_body" method="hide"]
 
 [connection signal="radar_hidden" from="." to="radar_sig" method="hide"]
 
 [connection signal="radar_revealed" from="." to="radar_sig" method="show"]
 
-[connection signal="revealed" from="." to="shield_body" method="show"]
-
 [connection signal="revealed" from="." to="Sprite" method="show"]
 
 [connection signal="revealed" from="." to="radar_sig" method="hide"]
+
+[connection signal="revealed" from="." to="shield_body" method="show"]
 
 [connection signal="selected" from="." to="SelectionBox" method="select"]
 

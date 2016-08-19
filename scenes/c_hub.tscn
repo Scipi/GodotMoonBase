@@ -13,17 +13,17 @@
 [ext_resource path="res://script/fov.gd" type="Script" id=11]
 [ext_resource path="res://script/c_hub_render.gd" type="Script" id=12]
 
-[sub_resource type="ConvexPolygonShape2D" id=5]
+[sub_resource type="ConvexPolygonShape2D" id=1]
 
 custom_solver_bias = 0.0
 points = Vector2Array( 8, -8, 8, 8, -8, 8, -8, -8 )
 
-[sub_resource type="ConvexPolygonShape2D" id=6]
+[sub_resource type="ConvexPolygonShape2D" id=2]
 
 custom_solver_bias = 0.0
 points = Vector2Array( -8, -8, 8, -8, 8, 8, -8, 8 )
 
-[sub_resource type="ConvexPolygonShape2D" id=7]
+[sub_resource type="ConvexPolygonShape2D" id=3]
 
 custom_solver_bias = 0.0
 points = Vector2Array( 8, -8, 8, 8, -8, 8, -8, -8 )
@@ -33,7 +33,7 @@ points = Vector2Array( 8, -8, 8, 8, -8, 8, -8, -8 )
 custom_solver_bias = 0.0
 radius = 160.562
 
-[sub_resource type="CanvasItemMaterial" id=8]
+[sub_resource type="CanvasItemMaterial" id=5]
 
 shader/shader = ExtResource( 9 )
 shader/shading_mode = 0
@@ -41,7 +41,7 @@ shader/shading_mode = 0
 [node name="Central_Hub" type="Area2D"]
 
 input/pickable = false
-shapes/0/shape = SubResource( 5 )
+shapes/0/shape = SubResource( 1 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -79,7 +79,7 @@ __meta__ = { "_edit_lock_":true }
 [node name="SelectionBox" type="Area2D" parent="."]
 
 input/pickable = true
-shapes/0/shape = SubResource( 6 )
+shapes/0/shape = SubResource( 2 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = true
 gravity_vec = Vector2( 0, 1 )
@@ -109,7 +109,7 @@ __meta__ = { "_edit_lock_":true }
 [node name="VisibilityBody" type="Area2D" parent="."]
 
 input/pickable = false
-shapes/0/shape = SubResource( 7 )
+shapes/0/shape = SubResource( 3 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = true
 gravity_vec = Vector2( 0, 1 )
@@ -160,7 +160,7 @@ Z_LAYER = "BUILDING_RANGE_RING_Z"
 [node name="range_transparent" type="Node2D" parent="building_range"]
 
 visibility/visible = false
-material/material = SubResource( 8 )
+material/material = SubResource( 5 )
 z/z = 5
 script/script = ExtResource( 10 )
 Z_LAYER = "BUILDING_RANGE_TRANS_Z"
@@ -188,7 +188,7 @@ _update_shape_index = 0
 
 [node name="view_range" type="Node2D" parent="fov"]
 
-material/material = SubResource( 8 )
+material/material = SubResource( 5 )
 z/z = 3
 script/script = ExtResource( 8 )
 color = Color( 0, 0, 0, 1 )
@@ -211,11 +211,11 @@ __meta__ = { "_edit_lock_":true }
 
 [connection signal="radar_revealed" from="." to="radar_sig" method="show"]
 
-[connection signal="revealed" from="." to="radar_sig" method="hide"]
-
 [connection signal="revealed" from="." to="Connections" method="revealed"]
 
 [connection signal="revealed" from="." to="Sprite" method="show"]
+
+[connection signal="revealed" from="." to="radar_sig" method="hide"]
 
 [connection signal="selected" from="." to="SelectionBox" method="select"]
 
