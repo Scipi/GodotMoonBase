@@ -1,17 +1,16 @@
-[gd_scene load_steps=13 format=1]
+[gd_scene load_steps=12 format=1]
 
 [ext_resource path="res://script/map.gd" type="Script" id=1]
 [ext_resource path="res://script/node_paint.gd" type="Script" id=2]
 [ext_resource path="res://script/edge_scroll_init.gd" type="Script" id=3]
-[ext_resource path="res://script/edge_scroll.gd" type="Script" id=4]
-[ext_resource path="res://script/GUI/hub_gui.gd" type="Script" id=5]
-[ext_resource path="res://script/GUI/eco_gui.gd" type="Script" id=6]
-[ext_resource path="res://tilesets/terrain.tres" type="TileSet" id=7]
-[ext_resource path="res://script/terrain_map.gd" type="Script" id=8]
-[ext_resource path="res://script/selection_node.gd" type="Script" id=9]
-[ext_resource path="res://scenes/c_hub.tscn" type="PackedScene" id=10]
-[ext_resource path="res://img/fow_shroud.png" type="Texture" id=11]
-[ext_resource path="res://script/back_buffer.gd" type="Script" id=12]
+[ext_resource path="res://script/GUI/hub_gui.gd" type="Script" id=4]
+[ext_resource path="res://script/GUI/eco_gui.gd" type="Script" id=5]
+[ext_resource path="res://tilesets/terrain.tres" type="TileSet" id=6]
+[ext_resource path="res://script/terrain_map.gd" type="Script" id=7]
+[ext_resource path="res://script/selection_node.gd" type="Script" id=8]
+[ext_resource path="res://scenes/c_hub.tscn" type="PackedScene" id=9]
+[ext_resource path="res://img/fow_shroud.png" type="Texture" id=10]
+[ext_resource path="res://script/back_buffer.gd" type="Script" id=11]
 
 [node name="root" type="Node"]
 
@@ -24,26 +23,11 @@ script/script = ExtResource( 1 )
 visibility/visible = false
 script/script = ExtResource( 2 )
 
-[node name="edge_scroll" type="CanvasLayer" parent="."]
+[node name="edge_scroll" type="Node2D" parent="."]
 
-layer = 1
-offset = Vector2( 0, 0 )
-rotation = 0.0
-scale = Vector2( 1, 1 )
 script/script = ExtResource( 3 )
 margin = 16
-
-[node name="StaticBody2D" type="StaticBody2D" parent="edge_scroll"]
-
-transform/pos = Vector2( 593.123, 265.273 )
-input/pickable = true
-collision/layers = 1
-collision/mask = 1
-constant_linear_velocity = Vector2( 0, 0 )
-constant_angular_velocity = 0.0
-friction = 1.0
-bounce = 0.0
-script/script = ExtResource( 4 )
+speed = 512
 
 [node name="GUI" type="CanvasLayer" parent="."]
 
@@ -62,7 +46,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 0.0
 margin/bottom = 0.0
-script/script = ExtResource( 5 )
+script/script = ExtResource( 4 )
 __meta__ = { "_edit_lock_":true }
 
 [node name="b_Hub" type="Button" parent="GUI/HUB_GUI"]
@@ -168,12 +152,12 @@ margin/bottom = 68.0
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-script/script = ExtResource( 6 )
+script/script = ExtResource( 5 )
 
 [node name="terrain_map" type="TileMap" parent="."]
 
 mode = 0
-tile_set = ExtResource( 7 )
+tile_set = ExtResource( 6 )
 cell/size = Vector2( 64, 64 )
 cell/quadrant_size = 16
 cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
@@ -187,19 +171,19 @@ collision/layers = 1
 collision/mask = 1
 occluder/light_mask = 1
 tile_data = IntArray( 0, 0, 1, 0, 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 7, 0, 8, 0, 9, 0, 10, 0, 11, 0, 12, 0, 13, 0, 14, 0, 15, 0, 65536, 0, 65537, 0, 65538, 0, 65539, 0, 65540, 0, 65541, 0, 65542, 0, 65543, 0, 65544, 0, 65545, 0, 65546, 0, 65547, 0, 65548, 0, 65549, 0, 65550, 0, 65551, 0, 131072, 0, 131073, 0, 131074, 0, 131075, 0, 131076, 0, 131077, 0, 131078, 0, 131079, 0, 131080, 0, 131081, 0, 131082, 0, 131083, 0, 131084, 0, 131085, 0, 131086, 0, 131087, 0, 196608, 0, 196609, 0, 196610, 0, 196611, 0, 196612, 0, 196613, 0, 196614, 0, 196615, 0, 196616, 0, 196617, 0, 196618, 0, 196619, 0, 196620, 0, 196621, 0, 196622, 0, 196623, 0, 262144, 0, 262145, 0, 262146, 0, 262147, 0, 262148, 0, 262149, 0, 262150, 0, 262151, 0, 262152, 0, 262153, 0, 262154, 0, 262155, 0, 262156, 0, 262157, 0, 262158, 1, 262159, 1, 327680, 1, 327681, 0, 327682, 0, 327683, 0, 327684, 0, 327685, 0, 327686, 0, 327687, 0, 327688, 0, 327689, 0, 327690, 0, 327691, 0, 327692, 0, 327693, 0, 327694, 1, 327695, 2, 393216, 1, 393217, 1, 393218, 1, 393219, 0, 393220, 0, 393221, 0, 393222, 0, 393223, 0, 393224, 0, 393225, 0, 393226, 0, 393227, 0, 393228, 0, 393229, 0, 393230, 1, 393231, 2, 458752, 2, 458753, 2, 458754, 1, 458755, 0, 458756, 0, 458757, 0, 458758, 0, 458759, 0, 458760, 0, 458761, 0, 458762, 0, 458763, 0, 458764, 0, 458765, 0, 458766, 1, 458767, 2, 524288, 2, 524289, 2, 524290, 1, 524291, 1, 524292, 0, 524293, 0, 524294, 0, 524295, 0, 524296, 0, 524297, 0, 524298, 0, 524299, 0, 524300, 1, 524301, 1, 524302, 1, 524303, 2, 589824, 2, 589825, 2, 589826, 2, 589827, 1, 589828, 0, 589829, 0, 589830, 0, 589831, 0, 589832, 0, 589833, 0, 589834, 0, 589835, 1, 589836, 1, 589837, 2, 589838, 2, 589839, 2 )
-script/script = ExtResource( 8 )
+script/script = ExtResource( 7 )
 __meta__ = { "_edit_lock_":true }
 
 [node name="Selection" type="Node2D" parent="."]
 
-script/script = ExtResource( 9 )
+script/script = ExtResource( 8 )
 __meta__ = { "_edit_lock_":true }
 
-[node name="Central_Hub" parent="." instance=ExtResource( 10 )]
+[node name="Central_Hub" parent="." instance=ExtResource( 9 )]
 
 transform/pos = Vector2( 820, 452 )
 
-[node name="Central_Hub 2" parent="." instance=ExtResource( 10 )]
+[node name="Central_Hub 2" parent="." instance=ExtResource( 9 )]
 
 editor/display_folded = true
 transform/pos = Vector2( 169, 106 )
@@ -212,39 +196,35 @@ visibility/visible = false
 transform/pos = Vector2( 507.345, 323.058 )
 transform/scale = Vector2( 17.0847, 11.0331 )
 z/z = 1
-texture = ExtResource( 11 )
+texture = ExtResource( 10 )
 
 [node name="fog_of_war_buff" type="BackBufferCopy" parent="."]
 
 copy_mode = 1
 rect = Rect2( -100, -100, 200, 200 )
-script/script = ExtResource( 12 )
+script/script = ExtResource( 11 )
 Z_LAYER = "FOG_OF_WAR_BUFF_Z"
 
 [node name="weap_range_buff" type="BackBufferCopy" parent="."]
 
 copy_mode = 1
 rect = Rect2( -100, -100, 200, 200 )
-script/script = ExtResource( 12 )
+script/script = ExtResource( 11 )
 Z_LAYER = "WEAP_RANGE_BUFF_Z"
 
 [node name="building_range_buff" type="BackBufferCopy" parent="."]
 
 copy_mode = 1
 rect = Rect2( -100, -100, 200, 200 )
-script/script = ExtResource( 12 )
+script/script = ExtResource( 11 )
 Z_LAYER = "BUILDING_RANGE_BUFF_Z"
 
 [node name="radar_ring_buff" type="BackBufferCopy" parent="."]
 
 copy_mode = 1
 rect = Rect2( -100, -100, 200, 200 )
-script/script = ExtResource( 12 )
+script/script = ExtResource( 11 )
 Z_LAYER = "RADAR_BUFF_Z"
-
-[connection signal="mouse_enter" from="edge_scroll/StaticBody2D" to="edge_scroll/StaticBody2D" method="_on_mouse_enter" binds= [ 0 ]]
-
-[connection signal="mouse_exit" from="edge_scroll/StaticBody2D" to="edge_scroll/StaticBody2D" method="_on_mouse_exit"]
 
 [connection signal="pressed" from="GUI/HUB_GUI/b_Hub" to="GUI/HUB_GUI" method="button_pressed" binds= [ "c_hub" ]]
 
@@ -255,49 +235,5 @@ Z_LAYER = "RADAR_BUFF_Z"
 [connection signal="pressed" from="GUI/HUB_GUI/b_Turret" to="GUI/HUB_GUI" method="button_pressed" binds= [ "turret" ]]
 
 [connection signal="pressed" from="GUI/HUB_GUI/b_Radar" to="GUI/HUB_GUI" method="button_pressed" binds= [ "radar" ]]
-
-[connection signal="deselected" from="Central_Hub" to="Central_Hub/SelectionBox" method="deselect"]
-
-[connection signal="deselected" from="Central_Hub" to="Central_Hub/building_range" method="deselect"]
-
-[connection signal="hidden" from="Central_Hub" to="Central_Hub/Sprite" method="hide"]
-
-[connection signal="hidden" from="Central_Hub" to="Central_Hub/Connections" method="hidden"]
-
-[connection signal="radar_hidden" from="Central_Hub" to="Central_Hub/radar_sig" method="hide"]
-
-[connection signal="radar_revealed" from="Central_Hub" to="Central_Hub/radar_sig" method="show"]
-
-[connection signal="revealed" from="Central_Hub" to="Central_Hub/radar_sig" method="hide"]
-
-[connection signal="revealed" from="Central_Hub" to="Central_Hub/Sprite" method="show"]
-
-[connection signal="revealed" from="Central_Hub" to="Central_Hub/Connections" method="revealed"]
-
-[connection signal="selected" from="Central_Hub" to="Central_Hub/SelectionBox" method="select"]
-
-[connection signal="selected" from="Central_Hub" to="Central_Hub/building_range" method="select"]
-
-[connection signal="deselected" from="Central_Hub 2" to="Central_Hub 2/SelectionBox" method="deselect"]
-
-[connection signal="deselected" from="Central_Hub 2" to="Central_Hub 2/building_range" method="deselect"]
-
-[connection signal="hidden" from="Central_Hub 2" to="Central_Hub 2/Sprite" method="hide"]
-
-[connection signal="hidden" from="Central_Hub 2" to="Central_Hub 2/Connections" method="hidden"]
-
-[connection signal="radar_hidden" from="Central_Hub 2" to="Central_Hub 2/radar_sig" method="hide"]
-
-[connection signal="radar_revealed" from="Central_Hub 2" to="Central_Hub 2/radar_sig" method="show"]
-
-[connection signal="revealed" from="Central_Hub 2" to="Central_Hub 2/radar_sig" method="hide"]
-
-[connection signal="revealed" from="Central_Hub 2" to="Central_Hub 2/Sprite" method="show"]
-
-[connection signal="revealed" from="Central_Hub 2" to="Central_Hub 2/Connections" method="revealed"]
-
-[connection signal="selected" from="Central_Hub 2" to="Central_Hub 2/SelectionBox" method="select"]
-
-[connection signal="selected" from="Central_Hub 2" to="Central_Hub 2/building_range" method="select"]
 
 

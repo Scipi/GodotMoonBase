@@ -16,8 +16,6 @@ func _ready():
 
 func _input(event):
 	if event.type == InputEvent.MOUSE_BUTTON and event.button_index == BUTTON_MIDDLE:
-		var p = !event.is_pressed()
-		set_v_drag_enabled(p)
-		set_h_drag_enabled(p)
-	elif event.type == InputEvent.MOUSE_MOTION:
+		dragging = event.is_pressed()
+	elif event.type == InputEvent.MOUSE_MOTION and dragging:
 		set_pos( get_pos() - event.relative_pos )
